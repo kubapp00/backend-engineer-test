@@ -1,4 +1,47 @@
-# EMURGO Backend Engineer Challenge
+# EMURGO Backend Engineer Challenge Solution
+
+This repository contains the complete solution for the EMURGO Backend Engineer Challenge.
+The implementation includes a fully functional UTXO indexer built using **Bun + Fastify** for the API and **PostgreSQL** for the database, all fully containerized with **Docker**.
+
+##  How to Run the Solution
+
+The project is fully containerized. **Docker and Docker Compose are required.**
+
+1.  Build and run the containers:
+
+    ```bash
+    docker compose up -d --build
+    ```
+
+    > **Note:** A healthcheck has been added to the `docker-compose.yaml` for the `db` service. This ensures the `api` service will only start after the database is fully ready, preventing connection errors on startup.
+
+2.  The application will be available at `http://localhost:3000`.
+
+---
+
+##  How to Run the Tests (Verification)
+
+This is the primary method to verify that the indexer is functioning correctly.
+
+1.  Ensure the containers are running (after executing the `docker compose up` command).
+2.  Execute the following command in your terminal to run the E2E test suite (located in `spec/indexer.test.ts`):
+
+    ```bash
+    docker compose exec api sh -c "cd /usr/src/app && bun test spec --timeout 60000"
+    ```
+
+### Expected Output
+
+The E2E test will verify all 3 validations (height, hash, balance), the indexing of all 3 blocks, the balance logic, a "double spend" attempt, and a successful rollback.
+
+You should see the following successful result:
+
+```plaintext
+ 1 pass
+ 0 fail
+```
+
+# EMURGO Backend Engineer Challenge (Original instruction)
 
 This challenge is designed to evaluate your skills with data processing and API development. You will be responsible for creating an indexer that will keep track of the balance of each address in a blockchain.
 
